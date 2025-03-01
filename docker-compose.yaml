@@ -7,7 +7,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
 
   frontend:
     build:
@@ -15,5 +17,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    command: npm start
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  backend_data:
 
